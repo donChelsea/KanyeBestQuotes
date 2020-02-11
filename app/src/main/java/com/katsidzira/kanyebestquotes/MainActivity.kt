@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.util.Log
 import com.katsidzira.kanyebestquotes.network.QuoteService
 import com.katsidzira.kanyebestquotes.network.RetrofitSingleton
+import kotlinx.android.synthetic.main.fragment_quote.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,7 +16,6 @@ class MainActivity : AppCompatActivity(), QuoteFragment.OnFragmentInteractionLis
     private val TAG = "main activity"
     private val quoteFragment = QuoteFragment()
     private val fragmentManager = supportFragmentManager
-    private var quote = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,20 +26,21 @@ class MainActivity : AppCompatActivity(), QuoteFragment.OnFragmentInteractionLis
         fragmentTrans.addToBackStack("first").commit()
     }
 
-    override fun onQuoteRequest(): String {
+    override fun onQuoteRequest(): Quote {
+        var quote: Quote = Quote("")
         val retrofit = RetrofitSingleton().getInstance()
         val quoteService = retrofit!!.create(QuoteService::class.java)
         quoteService.getKanyeQuotes().enqueue(object : Callback<Quote> {
             override fun onResponse(call: Call<Quote>, response: Response<Quote>) {
-                quote = response.body()!!.toString().substring(12)
-                Log.d(TAG, "onResponse: $quote")
+                quote = response.body()!!
+                quote_textview.text = quote.toString()
+                Log.d(TAG, "onResponse: ${response.body()}")
             }
 
             override fun onFailure(call: Call<Quote>, t: Throwable) {
                 Log.d(TAG, "on failure: ${t.message}")
             }
         })
-
         return quote
     }
 

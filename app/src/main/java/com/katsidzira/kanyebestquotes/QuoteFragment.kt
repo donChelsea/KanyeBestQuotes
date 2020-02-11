@@ -1,24 +1,16 @@
 package com.katsidzira.kanyebestquotes
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.katsidzira.kanyebestquotes.network.QuoteService
-import com.katsidzira.kanyebestquotes.network.RetrofitSingleton
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.*
 
 class QuoteFragment : Fragment() {
-    var quote = ""
+    var quote = Quote("")
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,18 +23,21 @@ class QuoteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_quote, container, false)
 
-        val view = inflater.inflate(R.layout.fragment_quote, container, false)
+    }
 
-        val quoteTextView = view!!.findViewById<TextView>(R.id.quote_textview)
-        val button = view!!.findViewById<Button>(R.id.next_quote_button)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        quoteTextView.text = quote
+        val quoteTextView = view.findViewById<TextView>(R.id.quote_textview)
+        val button = view.findViewById<Button>(R.id.next_quote_button)
 
-        button.setOnClickListener { v -> quote = listener?.onQuoteRequest()!! }
+        quoteTextView.text = quote.toString()
 
-        return view
-
+        button.setOnClickListener {
+            quote = listener?.onQuoteRequest()!!
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -60,7 +55,7 @@ class QuoteFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onQuoteRequest(): String
+        fun onQuoteRequest(): Quote
     }
 
 }
