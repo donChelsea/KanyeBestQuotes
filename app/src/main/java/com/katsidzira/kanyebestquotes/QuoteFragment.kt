@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import com.katsidzira.kanyebestquotes.network.QuoteService
 import com.katsidzira.kanyebestquotes.network.RetrofitSingleton
 import retrofit2.Call
@@ -15,17 +17,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-private const val QUOTE = "quote"
-
 class QuoteFragment : Fragment() {
-    private var quote: String? = null
+    var quote = ""
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            quote = it.getString(QUOTE)
-        }
+        quote = listener?.onQuoteRequest()!!
 
     }
 
@@ -33,11 +31,18 @@ class QuoteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_quote, container, false)
-    }
 
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+        val view = inflater.inflate(R.layout.fragment_quote, container, false)
+
+        val quoteTextView = view!!.findViewById<TextView>(R.id.quote_textview)
+        val button = view!!.findViewById<Button>(R.id.next_quote_button)
+
+        quoteTextView.text = quote
+
+        button.setOnClickListener { v -> quote = listener?.onQuoteRequest()!! }
+
+        return view
+
     }
 
     override fun onAttach(context: Context) {
@@ -55,7 +60,7 @@ class QuoteFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
+        fun onQuoteRequest(): String
     }
 
 }

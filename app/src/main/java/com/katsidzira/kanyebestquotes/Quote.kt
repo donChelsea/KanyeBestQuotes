@@ -6,3 +6,4 @@ data class Quote(
     @SerializedName("quote")
     private val quote: String
 )
+
