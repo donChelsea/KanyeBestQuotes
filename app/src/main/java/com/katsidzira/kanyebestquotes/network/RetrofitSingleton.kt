@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitSingleton {
     private var instance: Retrofit? = null
-    private val BASE_URL: String = ""
+    private val BASE_URL: String = "https://api.kanye.rest/"
 
     fun getInstance(): Retrofit? {
         if (instance == null) {

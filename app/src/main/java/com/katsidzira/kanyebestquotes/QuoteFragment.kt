@@ -4,9 +4,16 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.katsidzira.kanyebestquotes.network.QuoteService
+import com.katsidzira.kanyebestquotes.network.RetrofitSingleton
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
 
 private const val QUOTE = "quote"
 
@@ -19,6 +26,7 @@ class QuoteFragment : Fragment() {
         arguments?.let {
             quote = it.getString(QUOTE)
         }
+
     }
 
     override fun onCreateView(
@@ -49,16 +57,5 @@ class QuoteFragment : Fragment() {
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
     }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(quote: String) =
-            QuoteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(QUOTE, quote)
-                }
-            }
-    }
-
 
 }

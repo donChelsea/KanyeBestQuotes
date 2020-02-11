@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface QuoteService {
 
-    @GET("")
+    @GET(" ")
     fun getKanyeQuotes(): Call<Quote>
 
 }
