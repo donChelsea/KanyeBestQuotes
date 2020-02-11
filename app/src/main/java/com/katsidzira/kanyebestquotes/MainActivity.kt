@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.util.Log
+import android.view.View
 import com.katsidzira.kanyebestquotes.network.QuoteService
 import com.katsidzira.kanyebestquotes.network.RetrofitSingleton
 import kotlinx.android.synthetic.main.fragment_quote.*
